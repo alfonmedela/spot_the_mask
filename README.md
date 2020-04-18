@@ -17,9 +17,15 @@ I trained a DenseNet201 with fastai library with mixup and a final 2 epochs with
 
 Here comes the most interesting part. I trained a Random Forest classifier to map the statistis on the soft predictions of the tiles to a confidence value of either 0 or 1. Technically this is not setting the values to 0 or 1 by hand as ZINDI organization made clear it wasn't allowed. Furthermore, it is not just a model that maps 0.9 into 1.0 but takes the general prediction, the mean, minimum and maximum prediction of the 5 tiles and predicts the confidence.
 
-IMAGE OF THE SPLITTING
+![tiles](https://github.com/alfonmedela/spot_the_mask/blob/master/imgs/tiles_diagram.png)
 
 #### Training RF
+
+I calculated the minimum, mean and maximum of the 5 predictions and used them as input to the RF together with the prediction for the whole image.
+
+| x_1       |  x_2        | x_3    | x_4  | 
+| ------------- | ------------- |------------- | ------------- |
+| minimum pred   | mean pred        | maximum pred        | pred on the whole image        |
 
 #### Predicting final test images
 
