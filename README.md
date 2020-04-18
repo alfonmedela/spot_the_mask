@@ -23,9 +23,11 @@ Here comes the most interesting part. I trained a Random Forest classifier to ma
 
 I calculated the minimum, mean and maximum of the 5 predictions and used them as input to the RF together with the prediction for the whole image.
 
+<center>
 | x<sub>1</sub>  |  x<sub>2</sub>| x<sub>3</sub> | x<sub>4</sub>| 
 | ------------- | ------------- |------------- | ------------- |
 | minimum pred   | mean pred        | maximum pred        | pred on the whole image |
+</center>
 
 As most of the training and validation have near perfect score, we won't be able to exploit this technique unless we add new artificially generated data. What we asume is that it is possible to predict a value close to 0 because the mask was too small but when applying the model to the tiles to get a very confident value like 0.9 that change all the stats. The RF will be able to capture this if we generate this kind of data. Therefore, I defined my own criteria in which I though it would help predict with higher success.
 
@@ -33,6 +35,7 @@ As most of the training and validation have near perfect score, we won't be able
 
 We only have to apply previous method to every single image and submit predictions. I will also share the feature importance of the RF to show that the tiles are determinant to better predict.
 
+<center>
 ![feature importance](https://github.com/alfonmedela/spot_the_mask/blob/master/imgs/bar_plot.png)
-
+</center>
 
