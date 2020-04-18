@@ -6,7 +6,7 @@ import pickle
 
 if __name__ == '__main__':
 
-    # Load training data
+    # Load training data_other
     df = np.load('training_data.npy')
 
     for i in range(len(df)):

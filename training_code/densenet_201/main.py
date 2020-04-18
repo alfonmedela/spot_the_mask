@@ -1,7 +1,7 @@
 from fastai.vision import *
 
 torch.cuda.set_device(1)
-path = '/mnt/RAID5/users/alfonsomedela/projects/kaggle_comp/Projects/mask_detection/data/train/'
+path = '/mnt/RAID5/users/alfonsomedela/projects/kaggle_comp/Projects/mask_detection/data_other/train/'
 
 tfms = get_transforms()
 data = (ImageList.from_folder(path)

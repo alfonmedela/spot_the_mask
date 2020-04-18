@@ -73,9 +73,9 @@ def get_predictions(image_path):
 
 if __name__ == '__main__':
 
-    test_path = 'PATH/data/test/'
+    test_path = 'PATH/data_other/test/'
 
-    path = 'PATH/data/'
+    path = 'PATH/data_other/'
     sub = pd.read_csv(path + 'sample_sub_v2.csv')
 
 
