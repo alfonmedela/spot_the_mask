@@ -23,7 +23,7 @@ Here comes the most interesting part. I trained a Random Forest classifier to ma
 
 I calculated the minimum, mean and maximum of the 5 predictions and used them as input to the RF together with the prediction for the whole image.
 
-| $x_1$           |  x_2          | x_3          | x_4          | 
+| x<sub>1</sub>  |  x<sub>2</sub>| x<sub>3</sub> | x<sub>4</sub>| 
 | ------------- | ------------- |------------- | ------------- |
 | minimum pred   | mean pred        | maximum pred        | pred on the whole image |
 
