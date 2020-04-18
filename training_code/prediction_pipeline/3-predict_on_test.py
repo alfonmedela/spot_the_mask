@@ -73,11 +73,10 @@ def get_predictions(image_path):
 
 if __name__ == '__main__':
 
-    test_path = '/mnt/RAID5/users/alfonsomedela/projects/kaggle_comp/Projects/mask_detection/data/test/'
-    path = '/mnt/RAID5/users/alfonsomedela/projects/kaggle_comp/Projects/mask_detection/data/'
-    sub = pd.read_csv(path + 'sample_sub_v2.csv')
+    test_path = 'PATH/data/test/'
 
-    output = '/mnt/RAID5/users/alfonsomedela/projects/kaggle_comp/Projects/mask_detection/perfect_model/confident_prediction/'
+    path = 'PATH/data/'
+    sub = pd.read_csv(path + 'sample_sub_v2.csv')
 
 
     for i in range(len(sub)):
