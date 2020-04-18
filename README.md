@@ -3,7 +3,7 @@ Zindi hackathon Xth solution disclosed
 
 This is a binary classification problem with images as data input. CNNs are the state-of-the-art solution and most straight-forward option to achieve a high performing model. Here I show how to achive a perfect score:
 
-INPUT IMAGE SCORE HERE
+![leaderboard](https://github.com/alfonmedela/spot_the_mask/blob/master/imgs/public_leaderboard.PNG)
 
 ## Algorithm 
 
