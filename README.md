@@ -9,7 +9,7 @@ This is a binary classification problem with images as data input. CNNs are the 
 
 ### Classification CNN
 
-I trained a DenseNet201 with fastai library with mixup and a final 2 epochs without mixup. I splitted the data into 90% train and 10% validation and achieved an logloss of 0.01019 on the public leaderboard. This without any further tricks. However, we can improve our models performance or at least its confidence by splitting the image into tiles and predicting all of them.
+I trained a DenseNet201 with fastai library with mixup and a final 2 epochs without mixup. I splitted the data into 90% train and 10% validation and achieved a **logloss of 0.01019** on the public leaderboard. This without any further tricks. However, we can improve our models performance or at least its confidence by splitting the image into tiles and predicting all of them.
 
 ![submission](https://github.com/alfonmedela/spot_the_mask/blob/master/imgs/cnn_pred.PNG)
 
@@ -23,9 +23,13 @@ Here comes the most interesting part. I trained a Random Forest classifier to ma
 
 I calculated the minimum, mean and maximum of the 5 predictions and used them as input to the RF together with the prediction for the whole image.
 
-| x_1       |  x_2        | x_3    | x_4  | 
+| x_1           |  x_2          | x_3          | x_4          | 
 | ------------- | ------------- |------------- | ------------- |
-| minimum pred   | mean pred        | maximum pred        | pred on the whole image        |
+| minimum pred   | mean pred        | maximum pred        | pred on the whole image |
+
+As most of the training and validation have near perfect score, we won't be able to exploit this technique unless we add new artificially generated data. What we asume is that it is possible to predict a value close to 0 because the mask was too small but when applying the model to the tiles to get a very confident value like 0.9 that change all the stats. The RF will be able to capture this if we generate this kind of data. Therefore, I defined my own criteria in which I though it would help predict with higher success.
 
 #### Predicting final test images
+
+We only have to apply previous method to every single image (this takes XXXX time) and submit predictions. I will also share the feature importance of the RF to show that the tiles are determinant to better predict.
 
