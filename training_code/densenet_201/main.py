@@ -1,7 +1,10 @@
 from fastai.vision import *
 
+# Choose cuda device number
 torch.cuda.set_device(1)
-path = '/mnt/RAID5/users/alfonsomedela/projects/kaggle_comp/Projects/mask_detection/data_other/train/'
+
+#This is the path to the training data. The data should be divided in two folders: mask/no_mask
+path = 'ROOT_PATH/train/'
 
 tfms = get_transforms()
 data = (ImageList.from_folder(path)
@@ -15,6 +18,13 @@ data = (ImageList.from_folder(path)
 
 if __name__ == '__main__':
 
+
+    '''
+    Steps to follow:
+    1) Find lr. It is already done
+    2) Run with lr_find=False and MIXUP=True
+    3) Run with MIXUP=False'''
+
     # Activate mixup
     MIXUP = True
     lr_find = True
@@ -24,7 +34,8 @@ if __name__ == '__main__':
 
     if MIXUP:
         learn = cnn_learner(data, models.densenet201, metrics=[accuracy]).mixup()
-        learn.model_dir = '/mnt/RAID5/users/alfonsomedela/projects/kaggle_comp/Projects/mask_detection/densenet_201/new_split/weights/'
+        # Set up model dir to save the weights
+        learn.model_dir = 'ROOT_PATH/weights/'
 
         if lr_find:
             learn.lr_find()
@@ -42,8 +53,8 @@ if __name__ == '__main__':
 
     else:
         learn = cnn_learner(data, models.densenet201, metrics=[accuracy])
-        learn.model_dir = '/mnt/RAID5/users/alfonsomedela/projects/kaggle_comp/Projects/mask_detection/densenet_201/new_split/weights/'
-
+        # Set up model dir to save the weights
+        learn.model_dir = 'ROOT_PATH/weights/'
 
         learn.load('stage2_weights_mixup')
         learn.unfreeze()
@@ -54,6 +65,7 @@ if __name__ == '__main__':
         learn.fit_one_cycle(5, slice(1e-5))
         learn.save('stage4_weights')
 
+        # Export final model. Make sure lowest validation loss is obtained. This was around 0.02-0.03 for seed=666, which gave me best result without ensembling
         learn.export()
 
 

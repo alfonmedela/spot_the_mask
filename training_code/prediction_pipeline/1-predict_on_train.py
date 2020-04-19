@@ -7,7 +7,9 @@ from imutils import face_utils
 import cv2
 
 torch.cuda.set_device(0)
-learner_path = '/mnt/RAID5/users/alfonsomedela/projects/kaggle_comp/Projects/mask_detection/densenet_201/new_split/weights/'
+
+# Here comes the BEST exported model
+learner_path = 'ROOT_PATH/weights/'
 learn = load_learner(learner_path)
 
 def get_face(path):
@@ -36,10 +38,67 @@ def get_face(path):
         faces.append(input_img[yw1:yw2, xw1:xw2, :])
     return faces
 
+def get_predictions(image_path):
+
+    '''
+    :param image_path: input path of the image here
+    :return: predictions for the 5 tiles
+    '''
+
+    main_image = PIL.Image.open(image_path).convert('RGB')
+    main_image = np.array(main_image)
+
+    nx = 2
+    ny = 2
+    img_size_y = main_image.shape[0] // ny
+    img_size_x = main_image.shape[1] // nx
+    predictions = []
+    for i_y in range(ny):
+        for i_x in range(nx):
+            y1 = i_y * img_size_y
+            y2 = (i_y + 1) * img_size_y
+            x1 = i_x * img_size_x
+            x2 = (i_x + 1) * img_size_x
+            if i_y == ny - 1 and i_x == nx - 1:
+                img = main_image[y1:, x1:, :]
+            if i_y != ny - 1 and i_x == nx - 1:
+                img = main_image[y1:y2, x1:, :]
+            if i_y == ny - 1 and i_x != nx - 1:
+                img = main_image[y1:, x1:x2, :]
+            if i_y != ny - 1 and i_x != nx - 1:
+                img = main_image[y1:y2, x1:x2, :]
+
+            img = PIL.Image.fromarray(img).convert('RGB')
+            img = pil2tensor(img, np.float32)
+            img = img.div_(255)
+            img = Image(img)
+
+            pred_class, pred_idx, outputs = learn.predict(img)
+            output_prediction = outputs.detach().numpy()
+            predictions.append(output_prediction[0])
+
+    # CENTRAL CROP
+    y1, y2 = (main_image.shape[0] // 2) - (main_image.shape[0] // 4), (main_image.shape[0] // 2) + (main_image.shape[0] // 4)
+    x1, x2 = (main_image.shape[1] // 2) - (main_image.shape[1] // 4), (main_image.shape[1] // 2) + (main_image.shape[1] // 4)
+    img = main_image[y1:y2, x1:x2, :]
+    img = PIL.Image.fromarray(img).convert('RGB')
+    img = pil2tensor(img, np.float32)
+    img = img.div_(255)
+    img = Image(img)
+
+    pred_class, pred_idx, outputs = learn.predict(img)
+    output_prediction = outputs.detach().numpy()
+    predictions.append(output_prediction[0])
+
+    predictions = np.asarray(predictions)
+    return predictions
+
 if __name__ == '__main__':
 
+    # path to train data
+    path = 'ROOT_PATH/train/'
 
-    path = 'traindata'
+    # subfolders in train data
     folders = ['mask/', 'no_mask/']
 
     data = []
@@ -52,59 +111,21 @@ if __name__ == '__main__':
             faces = get_face(image_path)
             if len(faces) == 0:
 
-                face = PIL.Image.open(image_path).convert('RGB')
-                face = np.array(face)
+                # predict 5 tiles
+                predictions = get_predictions(image_path)
 
-                nx = 2
-                ny = 2
-                img_size_y = face.shape[0] // ny
-                img_size_x = face.shape[1] // nx
-                predictions = []
-                for i_y in range(ny):
-                    for i_x in range(nx):
-                        y1 = i_y * img_size_y
-                        y2 = (i_y + 1) * img_size_y
-                        x1 = i_x * img_size_x
-                        x2 = (i_x + 1) * img_size_x
-                        if i_y == ny - 1 and i_x == nx - 1:
-                            img = face[y1:, x1:, :]
-                        if i_y != ny - 1 and i_x == nx - 1:
-                            img = face[y1:y2, x1:, :]
-                        if i_y == ny - 1 and i_x != nx - 1:
-                            img = face[y1:, x1:x2, :]
-                        if i_y != ny - 1 and i_x != nx - 1:
-                            img = face[y1:y2, x1:x2, :]
-
-                        img = PIL.Image.fromarray(img).convert('RGB')
-                        img = pil2tensor(img, np.float32)
-                        img = img.div_(255)
-                        img = Image(img)
-
-                        pred_class, pred_idx, outputs = learn.predict(img)
-                        output_prediction = outputs.detach().numpy()
-                        predictions.append(output_prediction[0])
-
-                y1, y2 = (face.shape[0] // 2) - (face.shape[0] // 4), (face.shape[0] // 2) + (face.shape[0] // 4)
-                x1, x2 = (face.shape[1] // 2) - (face.shape[1] // 4), (face.shape[1] // 2) + (face.shape[1] // 4)
-                img = face[y1:y2, x1:x2, :]
-                img = PIL.Image.fromarray(img).convert('RGB')
-                img = pil2tensor(img, np.float32)
-                img = img.div_(255)
-                img = Image(img)
-
-                pred_class, pred_idx, outputs = learn.predict(img)
-                output_prediction = outputs.detach().numpy()
-                predictions.append(output_prediction[0])
-
-                predictions = np.asarray(predictions)
+                # tile predictions stats
+                min_pred = np.min(predictions)
                 max_pred = np.max(predictions)
                 mean_pred = np.mean(predictions)
 
+                # predict whole image
                 img = open_image(image_path)
                 pred_class, pred_idx, outputs = learn.predict(img)
                 output_prediction = outputs.detach().numpy()
-                data.append([np.min(predictions), np.mean(predictions), max_pred, output_prediction[0], n_class])
+                output_prediction = output_prediction[0]
 
+                data.append([min_pred, mean_pred, max_pred, output_prediction, n_class])
         n_class += 1
 
     data = np.asarray(data)
