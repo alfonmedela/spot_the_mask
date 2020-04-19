@@ -7,6 +7,21 @@ import pickle
 
 def generate_additional_data(samples):
 
+    '''
+    :param samples: Number of samples to generate
+    :return: Numpy array with the generated data
+
+    This function is build under several assumptions:
+    - Predictions that are in the range [0.5,1.0] and are supported by a max in the range [0.5,1.0] might be a 1.0
+    - Predictions that are in the range [0.2,0.5] and are supported by a very high max in the range [0.98,1.0] might be a 1.0
+    - Predictions that are in the range [0.0,0.5] and the max does not exceed 0.8 might be a 0.0
+    - Predictions that are in the range [0.5,0.8] and the max never exceeds 0.5 might be a 0.0
+
+    Note that I mention the max but I only took into account the min and mean which are values with some logic extracted from original data and same logic above
+
+    "This model will allow not only to correct any prediction that was originally wrong, but also to give a more confident prediction"
+    '''
+
     df_new = []
     for i in range(samples//2):
         if i < samples//4:
