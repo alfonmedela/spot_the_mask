@@ -1,7 +1,7 @@
 # Spot the mask
 Zindi hackathon **Xth solution** disclosed
 
-This is a binary classification problem with images. CNNs are the state-of-the-art solution and most straight-forward option to achieve a high performing model. Here I show how to achive a perfect score of 0 logloss (9.99200722162641e-16):
+This is a binary classification problem with images. CNNs are the state-of-the-art solution and most straight-forward option to achieve a high performing model. Here I show how to achive a perfect score of 0 logloss (9.99200722162641e-16). I got to be the third on the public leaderboard to obtain a perfect score but I decided to drop the submission becuase it was obtained by rounding the soft predictions. A single error on the private leaderboard would have messed up everything.
 
 ![leaderboard](https://github.com/alfonmedela/spot_the_mask/blob/master/imgs/public_leaderboard.PNG)
 
