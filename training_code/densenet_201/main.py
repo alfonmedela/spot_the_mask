@@ -61,7 +61,7 @@ if __name__ == '__main__':
         learn.fit_one_cycle(3, slice(1e-4))
         learn.save('stage3_weights')
 
-        learn.unfreeze()
+        # learn.unfreeze()
         learn.fit_one_cycle(5, slice(1e-5))
         learn.save('stage4_weights')
 
