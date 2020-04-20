@@ -36,9 +36,12 @@ We only have to apply previous method to every single image and submit predictio
 ![feature importance](https://github.com/alfonmedela/spot_the_mask/blob/master/imgs/bar_plot.png)
 
 ## Final result
-This model failed on 2 test images but it is impossible to find those images and correct the model because ZINDI makes 3 different statements on how to differenciate between mask/no-mask classes:
+This model failed on 2 test images (99.60% accuracy) but it is impossible to find those images and correct the model because ZINDI makes 3 different statements on how to differenciate between mask/no-mask classes:
 
-- 1SDSE
-- 33RE
-- 3534
+- *"Your task is to provide the probability that an **image contains** at least one mask"* (data section)
+- *"estimates of the corresponding probabilities of observing a **person with a mask**"* (data section)
+- *"at least one person in the image is **wearing** a mask"* (discussion section)
+
+Now have a look at these images and try to classify if it they have a mask without knowing which is the real definition of the *mask* class:
+
 
