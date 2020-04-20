@@ -1,7 +1,7 @@
 # Spot the mask
 Zindi hackathon solution disclosed
 
-This is a binary classification problem with images. CNNs are the state-of-the-art solution and most straight-forward option to achieve a high performing model.
+This is a binary classification problem with images. CNNs are the state-of-the-art solution and most straightforward option to achieve a high performing model.
 
 ## Algorithm 
 
