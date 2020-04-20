@@ -44,4 +44,5 @@ This model failed on 2 test images (99.60% accuracy) but it is impossible to fin
 
 Now have a look at these images and try to classify if it they have a mask without knowing which is the real definition of the *mask* class:
 
+![dudas](https://github.com/alfonmedela/spot_the_mask/blob/master/imgs/unkown.png)
 
