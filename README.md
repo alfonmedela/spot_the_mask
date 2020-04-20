@@ -1,5 +1,5 @@
 # Spot the mask
-[Zindi hackathon](https://zindi.africa/hackathons/spot-the-mask-challenge) solution disclosed
+[Zindi hackathon](https://zindi.africa/hackathons/spot-the-mask-challenge) solution disclosed.
 
 This is a binary classification problem with images. CNNs are the state-of-the-art solution and most straightforward option to achieve a high performing model.
 
