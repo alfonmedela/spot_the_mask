@@ -35,4 +35,10 @@ We only have to apply previous method to every single image and submit predictio
 
 ![feature importance](https://github.com/alfonmedela/spot_the_mask/blob/master/imgs/bar_plot.png)
 
+## Final result
+This model failed on 2 test images but it is impossible to find those images and correct the model because ZINDI makes 3 different statements on how to differenciate between mask/no-mask classes:
+
+- 1SDSE
+- 33RE
+- 3534
 
